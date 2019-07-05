@@ -1,0 +1,70 @@
+module Main where
+data Country= UK|Spain|USA deriving (Show)
+
+data UnderWriterContact = UnderWriterContact {
+  id          :: PositiveInt,
+  name        :: String,
+  email       :: Email,
+  phoneNumber :: PhoneNumber,
+  --underWriter :: ,
+  address     :: Address,
+  isDefault   :: Bool
+} deriving (Show)
+
+data Address = Address {
+  addressLine1 :: String,
+  addressLine2 :: Maybe String,
+  postcode     :: String,
+  city         :: String,
+  province     :: Maybe String,
+  country      :: Country
+} deriving (Show)
+
+data PhoneNumber= 
+  PhoneNumber String
+  deriving (Show)
+
+mkPhoneNumber :: String -> Maybe PhoneNumber
+
+mkPhoneNumber x
+  | length x == 13 || length x == 11 = Just $ PhoneNumber x
+  | otherwise = Nothing
+
+data Email= 
+  Email String
+  deriving (Show)
+
+mkEmail :: String -> Either String Email
+
+mkEmail x 
+  |length x > 3 && elem '@' x= Right $ Email x
+  |otherwise = Left "not valid email"
+
+data PositiveInt = 
+  PosInt Int
+  deriving (Show)
+
+mkPosInt :: Int -> Maybe PositiveInt
+
+mkPosInt x
+  | x > 0 = Just $ PosInt x
+  | otherwise = Nothing
+
+main :: IO ()
+main = putStrLn "Address: "
+{-|Utest = UnderWriterContact {
+  id= 123,
+  name="gera",
+  email"s@wea",
+  phoneNumber=07867288001,isDefault=True
+}-}
+atest = Address {
+  addressLine1="example1",
+  addressLine2= Just "something2" ,
+  postcode="en1 1nt",city="UK",
+  province= Just "somewhere",
+  country=UK}
+  --Just required before maybe items
+
+wholeAddress (Address {addressLine1=a, addressLine2=b, postcode=c, city=d, province=e, country=f})= a ++","++","++ show b ++","++ c++","++ d ++","++ show e ++","++ show f
+--show required when its a maybe type since its defined as possibly nothing or a string, so needs a show otherwise will not be processed as a normal string.
